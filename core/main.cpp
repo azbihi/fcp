@@ -24,6 +24,14 @@ const int MAX_COURSES = 10 ;
      int courseCount;
      float gpa;
  };
+ // Helper Functions
+ // func will validate grade
+ bool gradeCheck(float grade) {
+     return grade >= 0 && grade <= 20;
+ }
+ //this function is checking length of string and being sure all of chars are digits
+ bool (const string& id) {
+     return id.length() == 8 && all_of(id.begin(), id.end(), ::isdigit);
  int main()
  {
 //defining int for chosing operation
