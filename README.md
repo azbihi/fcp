@@ -1,6 +1,6 @@
 # fcp
 # Student Organizer Program
-##team members
+## team members
 Anaita Rafie
 AmirAli Zabihi
 ## Description  
