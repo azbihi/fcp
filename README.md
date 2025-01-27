@@ -1,8 +1,8 @@
-# fcp
+# fcp project
 # Student Organizer Program
 ## team members
-Anaita Rafie
-AmirAli Zabihi
+- Anaita Rafie
+- AmirAli Zabihi
 ## Description  
 This project is a **Student Organizer** program, designed to help manage and organize student-related tasks and information efficiently. The primary goal of this project is to strengthen programming skills by working on a practical application.  
 
