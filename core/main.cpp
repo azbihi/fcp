@@ -24,14 +24,42 @@ const int MAX_COURSES = 10 ;
      int courseCount;
      float gpa;
  };
+ //Global Variables
+ Student students[MAX_STUDENTS];
+ int studentCount = 0;
  // Helper Functions
  // func will validate grade
  bool gradeCheck(float grade) {
      return grade >= 0 && grade <= 20;
  }
+ bool isUniqueId (const string& id)
+ {
+     for (int i = 0 ; i < studentCount ; i++)
+     {
+         if (id == student[i].studentId)
+         {
+             return false ;
+         }
+     }
+     return true;
+ }
  //this function is checking length of string and being sure all of chars are digits
- bool (const string& id) {
-     return id.length() == 8 && all_of(id.begin(), id.end(), ::isdigit);
+ bool isValidStudentId (const string& id) {
+     return id.length() == 8 && all_of(id.begin(), id.end(), ::isdigit) && isUniqueId(&id);
+// this func work is to calculate gpa
+voig GPAclal (Student& student)
+{
+    float totalPoints = 0;
+    int totalUnits = 0 ;
+
+        for (int i = 0 ; i < student.courseCount; ++i )
+        {
+            totlalPoints += student.couses[i].grade * student.courses[i].units;
+            totalUnits += student.course[i].units;
+        }
+        student.gpa = totalaPoints > 0 ? totalPoints / totalUnits : 0 ;
+}
+
  int main()
  {
 //defining int for chosing operation
