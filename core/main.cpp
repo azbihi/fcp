@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
 //Constants
@@ -36,7 +37,7 @@ const int MAX_COURSES = 10 ;
  {
      for (int i = 0 ; i < studentCount ; i++)
      {
-         if (id == student[i].studentId)
+         if (id == students[i].studentId)
          {
              return false ;
          }
@@ -45,19 +46,80 @@ const int MAX_COURSES = 10 ;
  }
  //this function is checking length of string and being sure all of chars are digits
  bool isValidStudentId (const string& id) {
-     return id.length() == 8 && all_of(id.begin(), id.end(), ::isdigit) && isUniqueId(&id);
+     return id.length() == 8 && all_of(id.begin(), id.end(), ::isdigit) && isUniqueId(id);
+     }
 // this func work is to calculate gpa
-voig GPAclal (Student& student)
+void GPAclal (Student& student)
 {
     float totalPoints = 0;
     int totalUnits = 0 ;
 
         for (int i = 0 ; i < student.courseCount; ++i )
         {
-            totlalPoints += student.couses[i].grade * student.courses[i].units;
-            totalUnits += student.course[i].units;
+            totalPoints += (student.courses[i].grade) * (student.courses[i].units);
+            totalUnits += student.courses[i].units;
         }
-        student.gpa = totalaPoints > 0 ? totalPoints / totalUnits : 0 ;
+        student.gpa = totalPoints > 0 ? totalPoints / totalUnits : 0 ;
+}
+// Core Functions
+void addStudent() {
+    if (studentCount >= MAX_STUDENTS) {
+        cout << "\nCannot add more students. Maximum capacity reached.\n";
+        return;
+    }
+
+    Student student;
+    cout << "\n=== New Student Registration ===\n";
+    cout << "First Name: ";
+    cin >> student.firstName;
+    cout << "Last Name: ";
+    cin >> student.lastName;
+
+    do {
+        cout << "Student ID (8 digits): ";
+        cin >> student.studentId;
+    } while (!isValidStudentId(student.studentId));
+
+    cout << "Major: ";
+    cin >> student.major;
+
+    student.courseCount = 0;
+    student.gpa = 0.0;
+
+    students[studentCount++] = student;
+    cout << "\nStudent successfully registered.\n";
+}
+// Core Functions
+void addStudent()
+{
+//checking for count of students limit
+    if (studentCount >= MAX_STUDENTS) {
+        cout << "\nCannot add more students. Maximum capacity reached.\n";
+        return;
+    }
+
+//making a temp Variable
+    Student student;
+    // entering data
+    cout << "\n=== New Student Registration ===\n";
+    cout << "First Name: ";
+    cin >> student.firstName;
+    cout << "Last Name: ";
+    cin >> student.lastName;
+// cheking student id
+    do {
+        cout << "Student ID (8 digits): ";
+        cin >> student.studentId;
+    } while (!isValidStudentId(student.studentId));
+
+    cout << "Major: ";
+    cin >> student.major;
+
+    student.courseCount = 0;
+    student.gpa = 0.0;
+//We puting temp data into the main variable.
+    students[studentCount++] = student;
+    cout << "\nStudent successfully registered.\n";
 }
 
  int main()
@@ -76,3 +138,4 @@ voig GPAclal (Student& student)
          cout << "Enter your choice: ";
          cin >> choice;
 }
+ }
