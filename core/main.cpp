@@ -305,7 +305,9 @@ void editStudent()
          cout << "3. List All Students\n";
          cout << "4. List all students by major";
          cout << "5. Generate Transcript\n";
-         cout << "6. Exit\n";
+         cout << "6. Edit student data\n";
+         cout << "7. Delete student\n";
+         cout << "8. Exit\n";
          cout << "Enter your choice: ";
          cin >> choice;
       
@@ -329,8 +331,13 @@ void editStudent()
             case 5:
                 printTranscript();
                 break;
-
             case 6:
+                editStudent();
+                break;
+            case 7: 
+                deleteStudnet();
+                break;
+            case 8:
                 cout << "Program terminated.\n";
                 return 0;
             default:
