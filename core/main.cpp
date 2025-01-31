@@ -210,7 +210,7 @@ void printTranscript() {
  {
 //defining int for chosing operation
      int choice;
-// main menu of project
+
      while (true) {
          cout << "\n=== Student Management System ===\n";
          cout << "1. Add New Student\n";
@@ -221,5 +221,34 @@ void printTranscript() {
          cout << "6. Exit\n";
          cout << "Enter your choice: ";
          cin >> choice;
+      
+        switch (choice) {
+            case 1:
+                addStudent();
+                break;
+            case 2:
+                addCourseToStudent();
+                break;
+            case 3:
+                listStudents();
+                break;
+            case 4: {
+                string major;
+                cout << "Enter major to filter: ";
+                cin >> major;
+                listStudents(major);
+                break;
+            }
+            case 5:
+                printTranscript();
+                break;
+            case 6:
+                cout << "Program terminated.\n";
+                return 0;
+            default:
+                cout << "Invalid option!\n";
+        }
+      
 }
- }
+  return 0;
+}
