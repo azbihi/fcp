@@ -1,5 +1,7 @@
 #include <iostream>
 #include <algorithm>
+#include <string>
+#include <iomanip>
 using namespace std;
 
 //Constants
@@ -27,7 +29,7 @@ const int MAX_COURSES = 10 ;
  };
  //Global Variables
  Student students[MAX_STUDENTS];
- int studentCount = 0;
+ int studentCount = 0; //counting the number for students
  // Helper Functions
  // func will validate grade
  bool gradeCheck(float grade) {
@@ -61,34 +63,7 @@ void GPAclal (Student& student)
         }
         student.gpa = totalPoints > 0 ? totalPoints / totalUnits : 0 ;
 }
-// Core Functions
-void addStudent() {
-    if (studentCount >= MAX_STUDENTS) {
-        cout << "\nCannot add more students. Maximum capacity reached.\n";
-        return;
-    }
 
-    Student student;
-    cout << "\n=== New Student Registration ===\n";
-    cout << "First Name: ";
-    cin >> student.firstName;
-    cout << "Last Name: ";
-    cin >> student.lastName;
-
-    do {
-        cout << "Student ID (8 digits): ";
-        cin >> student.studentId;
-    } while (!isValidStudentId(student.studentId));
-
-    cout << "Major: ";
-    cin >> student.major;
-
-    student.courseCount = 0;
-    student.gpa = 0.0;
-
-    students[studentCount++] = student;
-    cout << "\nStudent successfully registered.\n";
-}
 // Core Functions
 void addStudent()
 {
@@ -121,6 +96,72 @@ void addStudent()
     students[studentCount++] = student;
     cout << "\nStudent successfully registered.\n";
 }
+
+void addCourseToStudent() {
+    string studentId;
+    cout << "\n=== Add Course to Student ===\n";
+    cout << "Student ID: ";
+    cin >> studentId;
+
+    int studentIndex = -1; // searching for the ID
+    for (int i = 0; i < studentCount; ++i) {
+        if (students[i].studentId == studentId) {
+            studentIndex = i;
+            break;
+        }
+    }
+
+    if (studentIndex == -1) {
+        cout << "Student not found!\n";
+        return;
+    }
+
+    Student& student = students[studentIndex];
+
+    if (student.courseCount >= MAX_COURSES) {
+        cout << "\nCannot add more courses. Maximum capacity reached.\n";
+        return;
+    }
+
+    Course course;
+    cout << "Course Name: ";
+    cin.ignore();
+    getline(cin, course.name);
+    cout << "Number of Units: ";
+    cin >> course.units;
+
+    do {
+        cout << "Grade (0-20): ";
+        cin >> course.grade;
+    } while (!isValidGrade(course.grade));
+
+    student.courses[student.courseCount++] = course;
+    calculateGPA(student);
+
+    cout << "\nCourse successfully added.\n";
+}
+
+void listStudents(const string& majorFilter = "") { //listing sturdents by major
+    cout << "\n=== Student List ===\n";
+
+    cout << setw(30) << "Full Name"
+         << setw(15) << "Student ID"
+         << setw(20) << "Major"
+         << setw(10) << "GPA" << endl;
+    cout << string(75, '-') << endl;
+
+    for (int i = 0; i < studentCount; ++i) {
+        if (!majorFilter.empty() && students[i].major != majorFilter) {
+            continue;
+        }
+
+        cout << setw(30) << (students[i].firstName + " " + students[i].lastName)
+             << setw(15) << students[i].studentId
+             << setw(20) << students[i].major
+             << setw(10) << fixed << setprecision(2) << students[i].gpa << endl;
+    }
+}
+
 
  int main()
  {
