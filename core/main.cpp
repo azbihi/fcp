@@ -35,7 +35,7 @@ const int MAX_COURSES = 10 ;
  bool gradeCheck(float grade) {
      return grade >= 0 && grade <= 20;
  }
- bool isUniqueId (const string& id)
+ bool isUniqueId (const string& id) //check ID uniqueness 
  {
      for (int i = 0 ; i < studentCount ; i++)
      {
@@ -161,7 +161,50 @@ void listStudents(const string& majorFilter = "") { //listing sturdents by major
              << setw(10) << fixed << setprecision(2) << students[i].gpa << endl;
     }
 }
+// function to add a transcript to each students data set
+void printTranscript() {
+    string studentId;
+    cout << "\n=== Generate Transcript ===\n";
+    cout << "Student ID: ";
+    cin >> studentId;
 
+    int studentIndex = -1;
+    for (int i = 0; i < studentCount; ++i) { //finding the student id
+        if (students[i].studentId == studentId) {
+            studentIndex = i;
+            break;
+        }
+    }
+
+    if (studentIndex == -1) {
+        cout << "Student not found!\n";
+        return;
+    }
+
+    Student& student = students[studentIndex];
+
+    cout << "\n" << string(50, '*') << endl;
+    cout << "Academic Transcript" << endl;
+    cout << string(50, '*') << endl;
+    cout << "Full Name: " << student.firstName << " " << student.lastName << endl;
+    cout << "Student ID: " << student.studentId << endl;
+    cout << "Major: " << student.major << endl;
+    cout << "Overall GPA: " << fixed << setprecision(2) << student.gpa << endl;
+    cout << string(50, '-') << endl;
+
+    cout << setw(30) << "Course Name"
+         << setw(15) << "Units"
+         << setw(10) << "Grade" << endl;
+    cout << string(55, '-') << endl;
+
+    for (int i = 0; i < student.courseCount; ++i) {
+        cout << setw(30) << student.courses[i].name
+             << setw(15) << student.courses[i].units
+             << setw(10) << student.courses[i].grade << endl;
+    }
+
+    cout << string(50, '*') << endl;
+}
 
  int main()
  {
