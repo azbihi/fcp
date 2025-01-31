@@ -234,6 +234,65 @@ void printTranscript() {
     cout << string(50, '*') << endl;
 }
 
+void editStudent()
+ {
+     string studentId;
+     cout << "\n=== Edit Student ===\n";
+     cout << "Student ID: ";
+     cin >> studentId;
+
+     int studentIndex = -1;
+     for (int i = 0; i < studentCount; ++i) {
+         if (students[i].studentId == studentId) {
+             studentIndex = i;
+             break;
+         }
+     }
+
+     if (studentIndex == -1) {
+         cout << "Student not found!\n";
+         return;
+     }
+
+     Student& student = students[studentIndex];
+     cout << "First Name (" << student.firstName << "): ";
+     cin >> student.firstName;
+     cout << "Last Name (" << student.lastName << "): ";
+     cin >> student.lastName;
+     cout << "Major (" << student.major << "): ";
+     cin >> student.major;
+
+     cout << "\nStudent successfully updated.\n";
+ }
+
+ void deleteStudnet()
+{
+    string studentId;
+    cout << "\n=== Delete Student ===\n";
+    cout << "Student ID: ";
+    cin >> studentId;
+
+    int studentIndex = -1;
+    for (int i = 0; i < studentCount; ++i) {
+        if (students[i].studentId == studentId) {
+            studentIndex = i;
+            break;
+        }
+    }
+
+    if (studentIndex == -1) {
+        cout << "Student not found!\n";
+        return;
+    }
+
+    for (int i = studentIndex; i < studentCount - 1; ++i) {
+        students[i] = students[i + 1];
+    }
+
+    studentCount--;
+    cout << "\nStudent successfully deleted.\n";
+}
+
  int main()
  {
 //defining int for chosing operation
@@ -242,12 +301,11 @@ void printTranscript() {
      while (true) {
          cout << "\n=== Student Management System ===\n";
          cout << "1. Add New Student\n";
-         cout << "2. Delete Student\n";
-         cout << "3. Add Course to Student\n";
-         cout << "4. List All Students\n";
-         cout << "5. List Students by Major\n";
-         cout << "6. Generate Transcript\n";
-         cout << "7. Exit\n";
+         cout << "2. Add Course to Student\n";
+         cout << "3. List All Students\n";
+         cout << "4. List all students by major";
+         cout << "5. Generate Transcript\n";
+         cout << "6. Exit\n";
          cout << "Enter your choice: ";
          cin >> choice;
       
@@ -271,6 +329,7 @@ void printTranscript() {
             case 5:
                 printTranscript();
                 break;
+
             case 6:
                 cout << "Program terminated.\n";
                 return 0;
