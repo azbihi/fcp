@@ -32,7 +32,7 @@ const int MAX_COURSES = 10 ;
  int studentCount = 0; //counting the number for students
  // Helper Functions
  // func will validate grade
- bool gradeCheck(float grade) {
+ bool isValidGrade(float grade) {
      return grade >= 0 && grade <= 20;
  }
  bool isUniqueId (const string& id) //check ID uniqueness 
@@ -46,12 +46,26 @@ const int MAX_COURSES = 10 ;
      }
      return true;
  }
+ bool isUniqueId2 (const string& id ,int j) //check ID uniqueness 
+ {
+     for (int i = 0 ; i < studentCount ; i++)
+     {   if ( i == j) {continue;}
+         if (id == students[i].studentId)
+         {
+             return false ;
+         }
+     }
+     return true;
+ }
  //this function is checking length of string and being sure all of chars are digits
  bool isValidStudentId (const string& id) {
      return id.length() == 8 && all_of(id.begin(), id.end(), ::isdigit) && isUniqueId(id);
      }
+bool isValidStudentId2 (const string& id , const int j) {
+     return id.length() == 8 && all_of(id.begin(), id.end(), ::isdigit) && isUniqueId2(id, j);
+     }
 // this func work is to calculate gpa
-void GPAclal (Student& student)
+void calculateGPA (Student& student)
 {
     float totalPoints = 0;
     int totalUnits = 0 ;
@@ -105,18 +119,19 @@ void addStudent()
     Student student;
     // entering data
     cout << "\n=== New Student Registration ===\n";
+    cin.ignore();  // Add this to clear buffer
     cout << "First Name: ";
-    cin >> student.firstName;
+    getline(cin, student.firstName);
     cout << "Last Name: ";
-    cin >> student.lastName;
+    getline(cin, student.lastName);
 // cheking student id
     do {
         cout << "Student ID (8 digits): ";
-        cin >> student.studentId;
+        getline(cin, student.studentId);
     } while (!isValidStudentId(student.studentId));
 
     cout << "Major: ";
-    cin >> student.major;
+    getline(cin, student.major);
 
     student.courseCount = 0;
     student.gpa = 0.0;
@@ -193,8 +208,9 @@ void listStudents(const string& majorFilter = "") { //listing sturdents by major
 void printTranscript() {
     string studentId;
     cout << "\n=== Generate Transcript ===\n";
+    cin.ignore();
     cout << "Student ID: ";
-    cin >> studentId;
+    getline(cin, studentId);
 
     int studentIndex = -1;
     for (int i = 0; i < studentCount; ++i) { //finding the student id
@@ -238,8 +254,9 @@ void editStudent()
  {
      string studentId;
      cout << "\n=== Edit Student ===\n";
+     cin.ignore();
      cout << "Student ID: ";
-     cin >> studentId;
+     getline(cin, studentId);
 
      int studentIndex = -1;
      for (int i = 0; i < studentCount; ++i) {
@@ -255,22 +272,27 @@ void editStudent()
      }
 
      Student& student = students[studentIndex];
+     cout << "Student ID (" << student.studentId << "): ";
+        do {
+            getline(cin, student.studentId);
+        } while (!isValidStudentId(student.studentId));
      cout << "First Name (" << student.firstName << "): ";
-     cin >> student.firstName;
+     getline(cin, student.firstName);
      cout << "Last Name (" << student.lastName << "): ";
-     cin >> student.lastName;
+     getline(cin, student.lastName);
      cout << "Major (" << student.major << "): ";
-     cin >> student.major;
+     getline(cin, student.major);
 
      cout << "\nStudent successfully updated.\n";
  }
 
- void deleteStudnet()
+ void deleteStudent()
 {
     string studentId;
     cout << "\n=== Delete Student ===\n";
+    cin.ignore();
     cout << "Student ID: ";
-    cin >> studentId;
+    getline(cin, studentId);
 
     int studentIndex = -1;
     for (int i = 0; i < studentCount; ++i) {
@@ -303,7 +325,7 @@ void editStudent()
          cout << "1. Add New Student\n";
          cout << "2. Add Course to Student\n";
          cout << "3. List All Students\n";
-         cout << "4. List all students by major";
+         cout << "4. List all students by major\n";
          cout << "5. Generate Transcript\n";
          cout << "6. Edit student data\n";
          cout << "7. Delete student\n";
@@ -323,8 +345,9 @@ void editStudent()
                 break;
             case 4: {
                 string major;
+                cin.ignore();
                 cout << "Enter major to filter: ";
-                cin >> major;
+                getline(cin, major);
                 listStudents(major);
                 break;
             }
@@ -335,7 +358,7 @@ void editStudent()
                 editStudent();
                 break;
             case 7: 
-                deleteStudnet();
+                deleteStudent();
                 break;
             case 8:
                 cout << "Program terminated.\n";
