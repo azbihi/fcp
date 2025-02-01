@@ -32,7 +32,7 @@ const int MAX_COURSES = 10 ;
  int studentCount = 0; //counting the number for students
  // Helper Functions
  // func will validate grade
- bool gradeCheck(float grade) {
+ bool isValidGrade(float grade) {
      return grade >= 0 && grade <= 20;
  }
  bool isUniqueId (const string& id) //check ID uniqueness 
@@ -51,7 +51,7 @@ const int MAX_COURSES = 10 ;
      return id.length() == 8 && all_of(id.begin(), id.end(), ::isdigit) && isUniqueId(id);
      }
 // this func work is to calculate gpa
-void GPAclal (Student& student)
+void calculateGPA (Student& student)
 {
     float totalPoints = 0;
     int totalUnits = 0 ;
@@ -106,9 +106,10 @@ void addStudent()
     // entering data
     cout << "\n=== New Student Registration ===\n";
     cout << "First Name: ";
-    cin >> student.firstName;
+     cin.ignore();
+    getline(cin, student.firstName);
     cout << "Last Name: ";
-    cin >> student.lastName;
+    student.lastName
 // cheking student id
     do {
         cout << "Student ID (8 digits): ";
