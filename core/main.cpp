@@ -183,7 +183,58 @@ void addCourseToStudent() {
 
     cout << "\nCourse successfully added.\n";
 }
-void editCourse(){
+void editCourse(){ //editing course
+    string studentId;
+    cout << "\n=== Edit Course ===\n";
+    cout << "Student ID: ";
+    cin >> studentId;
+
+    int studentIndex = -1;
+    for (int i = 0; i < studentCount; ++i) {
+        if (students[i].studentId == studentId) {
+            studentIndex = i;
+            break;
+        }
+    }
+
+    if (studentIndex == -1) {
+        cout << "Student not found!\n";
+        return;
+    }
+
+    Student& student = students[studentIndex];
+
+    cout << "Course Name: ";
+    string courseName;
+    cin.ignore();
+    getline(cin, courseName);
+
+    int courseIndex = -1;
+    for (int i = 0; i < student.courseCount; ++i) {
+        if (student.courses[i].name == courseName) {
+            courseIndex = i;
+            break;
+        }
+    }
+
+    if (courseIndex == -1) {
+        cout << "Course not found!\n";
+        return;
+    }
+
+    Course& course = student.courses[courseIndex];
+    cout << "Course Name (" << course.name << "): ";
+    getline(cin, course.name);
+    cout << "Number of Units (" << course.units << "): ";
+    cin >> course.units;
+
+    do {
+        cout << "Grade (0-20) (" << course.grade << "): ";
+        cin >> course.grade;
+    } while (!isValidGrade(course.grade));
+
+    calculateGPA(student);
+    cout << "\nCourse successfully updated.\n";
     
 }
 void listStudents(const string& majorFilter = "") { //listing sturdents by major
