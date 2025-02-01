@@ -121,9 +121,9 @@ void addStudent()
     cout << "\n=== New Student Registration ===\n";
     cin.ignore();  // Add this to clear buffer
     cout << "First Name: ";
-    getline(cin, student.firstName);
+    cin >> student.firstName;
     cout << "Last Name: ";
-    getline(cin, student.lastName);
+    cin >> student.lastName;
 // cheking student id
     do {
         cout << "Student ID (8 digits): ";
