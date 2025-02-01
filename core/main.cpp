@@ -183,7 +183,9 @@ void addCourseToStudent() {
 
     cout << "\nCourse successfully added.\n";
 }
-
+void editCourse(){
+    
+}
 void listStudents(const string& majorFilter = "") { //listing sturdents by major
     cout << "\n=== Student List ===\n";
 
@@ -326,8 +328,9 @@ void editStudent()
          cout << "4. List all students by major\n";
          cout << "5. Generate Transcript\n";
          cout << "6. Edit student data\n";
-         cout << "7. Delete student\n";
-         cout << "8. Exit\n";
+         cout << "7. Edit course\n";
+         cout << "8. Delete student\n";
+         cout << "9. Exit\n";
          cout << "Enter your choice: ";
          getline(cin,choice);
          if(choice == "1" )
@@ -360,9 +363,13 @@ void editStudent()
         }
         else if (choice == "7")
         {
-                deleteStudent();
+                editCourse();
         }
         else if (choice == "8")
+        {
+                deleteStudent();
+        }
+        else if (choice == "9")
         {
                 cout << "Program terminated.\n";
                 return 0;
