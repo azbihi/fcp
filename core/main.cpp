@@ -207,11 +207,9 @@ void listStudents(const string& majorFilter = "") { //listing sturdents by major
 // function to add a transcript to each students data set
 void printTranscript() {
     string studentId;
-    cout << "\n=== Generate Transcript ===\n";
+    cout << "\n=== Generate Transcript ===\n"<< "Student ID: ";
     cin.ignore();
-    cout << "Student ID: ";
     getline(cin, studentId);
-
     int studentIndex = -1;
     for (int i = 0; i < studentCount; ++i) { //finding the student id
         if (students[i].studentId == studentId) {
@@ -375,5 +373,5 @@ void editStudent()
         }
       
 }
-  return 0;
+return 0;
 }
