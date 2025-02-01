@@ -318,7 +318,7 @@ void editStudent()
  int main()
  {
 //defining int for chosing operation
-     int choice;
+     string choice;
 
      while (true) {
          cout << "\n=== Student Management System ===\n";
@@ -331,39 +331,46 @@ void editStudent()
          cout << "7. Delete student\n";
          cout << "8. Exit\n";
          cout << "Enter your choice: ";
-         cin >> choice;
-      
-        switch (choice) {
-            case 1:
-                addStudent();
-                break;
-            case 2:
-                addCourseToStudent();
-                break;
-            case 3:
-                listStudents();
-                break;
-            case 4: {
+         getline(cin,choice);
+         if(choice == "1" )
+         {
+            addStudent();
+         }
+         else if (choice == "2")
+         {   
+            addCourseToStudent();
+         }
+         else if (choice == "3")
+        {
+            listStudents();
+        }     
+        else if (choice== "4")
+        {
                 string major;
                 cin.ignore();
                 cout << "Enter major to filter: ";
                 getline(cin, major);
                 listStudents(major);
-                break;
-            }
-            case 5:
-                printTranscript();
-                break;
-            case 6:
+        }
+        else if (choice == "5" )
+        {
+            printTranscript();
+        }   
+        else if (choice == "6")
+        {
                 editStudent();
-                break;
-            case 7: 
+        }
+        else if (choice == "7")
+        {
                 deleteStudent();
-                break;
-            case 8:
+        }
+        else if (choice == "8")
+        {
                 cout << "Program terminated.\n";
                 return 0;
-            default:
+        }        
+        else 
+        {
                 cout << "Invalid option!\n";
         }
       
