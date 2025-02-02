@@ -211,25 +211,28 @@ void editCourse(){ //editing course
     }
 
     Student& student = students[studentIndex];
-
-    cout << "Course Name: ";
-    string courseName;
-    cin.ignore();
-    getline(cin, courseName);
-
-    int courseIndex = -1;
-    for (int i = 0; i < student.courseCount; ++i) {
-        if (student.courses[i].name == courseName) {
-            courseIndex = i;
-            break;
-        }
+    int z = 0 ; 
+    for ( z ; z < student.courseCount ; z++) 
+    {
+        cout << z+1 << ". " << student.courses[z].name<<endl;
     }
-
-    if (courseIndex == -1) {
-        cout << "Course not found!\n";
+    if ( z == 0 )
+    { 
+        cout << "There isn't course to edit "<<endl
+             << string(50, '*') << endl ;
+        return ;
+    }
+    else {  
+    cout << "Course num : ";
+    string choose;
+    cin.ignore();
+    getline(cin, choose);
+    int courseIndex = stoi(choose) - 1;
+    if (courseIndex < 0 || courseIndex >= student.courseCount) {
+        cout << "Invalid course number!\n";
         return;
     }
-
+    
     Course& course = student.courses[courseIndex];
     cout << "Course Name (" << course.name << "): ";
     getline(cin, course.name);
@@ -253,7 +256,7 @@ void editCourse(){ //editing course
 
     calculateGPA(student);
     cout << "\nCourse successfully updated.\n";
-    
+    }
 }
 void listStudents(const string& majorFilter = "") { //listing sturdents by major
     cout << "\n=== Student List ===\n";
