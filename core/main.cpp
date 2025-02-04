@@ -264,21 +264,35 @@ void editCourse() {
 void listStudents(const string& majorFilter = "") {
     cout << "\n=== Student List ===\n";
 
+    int indices[MAX_STUDENTS];
+    int count = 0;
+    
+    for (int i = 0; i < studentCount; ++i) {
+        if (majorFilter.empty() || students[i].major == majorFilter) {
+            indices[count++] = i;
+        }
+    }
+
+    for (int i = 0; i < count - 1; ++i) {
+        for (int j = 0; j < count - i - 1; ++j) {
+            if (students[indices[j]].gpa < students[indices[j + 1]].gpa) {
+                swap(indices[j], indices[j + 1]);
+            }
+        }
+    }
+
     cout << setw(30) << "Full Name"
          << setw(15) << "Student ID"
          << setw(20) << "Major"
          << setw(10) << "GPA" << endl;
     cout << string(75, '-') << endl;
 
-    for (int i = 0; i < studentCount; ++i) {
-        if (!majorFilter.empty() && students[i].major != majorFilter) {
-            continue;
-        }
-
-        cout << setw(30) << (students[i].firstName + " " + students[i].lastName)
-             << setw(15) << students[i].studentId
-             << setw(20) << students[i].major
-             << setw(10) << fixed << setprecision(2) << students[i].gpa << endl;
+    for (int i = 0; i < count; ++i) {
+        int idx = indices[i];
+        cout << setw(30) << (students[idx].firstName + " " + students[idx].lastName)
+             << setw(15) << students[idx].studentId
+             << setw(20) << students[idx].major
+             << setw(10) << fixed << setprecision(2) << students[idx].gpa << endl;
     }
 }
 
@@ -360,18 +374,17 @@ void editStudent() {
         }
     } while (!isValidStudentId2(draftId, studentIndex));
 
-    cout << "First Name (" << student.firstName << "): ";
-    cin.ignore();
+    cout << "First Name (" << student.firstName << ") :";
     getline(cin, firstName);
     if (!firstName.empty()) {
         student.firstName = firstName;
     }
-    cout << "Last Name (" << student.lastName << "): ";
+    cout << "Last Name (" << student.lastName << ") : ";
     getline(cin, lastName);
     if (!lastName.empty()) {
         student.lastName = lastName;
     }
-    cout << "Major (" << student.major << "): ";
+    cout << "Major (" << student.major << ") : ";
     getline(cin, major);
     if (!major.empty()) {
         student.major = major;
