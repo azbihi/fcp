@@ -98,6 +98,7 @@ void deleteSrudnet()
 
     if (studentIndex == -1) {
         cout << "Student not found!\n";
+        
         return;
     }
 
@@ -158,6 +159,7 @@ void addCourseToStudent() {
 
     if (studentIndex == -1) {
         cout << "Student not found!\n";
+        cin.ignore();
         return;
     }
 
@@ -165,6 +167,7 @@ void addCourseToStudent() {
 
     if (student.courseCount >= MAX_COURSES) {
         cout << "\nCannot add more courses. Maximum capacity reached.\n";
+        cin.ignore();
         return;
     }
 
@@ -207,6 +210,7 @@ void editCourse(){ //editing course
 
     if (studentIndex == -1) {
         cout << "Student not found!\n";
+        cin.ignore();
         return;
     }
 
@@ -293,6 +297,7 @@ void printTranscript() {
 
     if (studentIndex == -1) {
         cout << "Student not found!\n";
+        cin.ignore();
         return;
     }
 
@@ -319,6 +324,7 @@ void printTranscript() {
     }
 
     cout << string(50, '*') << endl;
+    cin.ignore();
 }
 
 void editStudent()
@@ -338,6 +344,7 @@ void editStudent()
 
      if (studentIndex == -1) {
          cout << "Student not found!\n";
+         cin.ignore();
          return;
      }
 
@@ -383,6 +390,7 @@ void editStudent()
 
     studentCount--;
     cout << "\nStudent successfully deleted.\n";
+    cin.ignore();
 }
 
  int main()
