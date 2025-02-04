@@ -44,7 +44,7 @@ bool isUniqueId(const string& id) {
     return true;
 }
 
-bool isUniqueId2(const string& id, int j) {
+bool isUniqueId2(const string& id, int j) { //Handling edition in student data
     for (int i = 0; i < studentCount; i++) {
         if (i == j) {
             continue;
