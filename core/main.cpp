@@ -86,7 +86,7 @@ void addStudent() {
         return;
     }
 
-    Student student;
+    Student student; //defining a student of struct student for the cause
     cout << "\n=== New Student Registration ===\n";
     
     do {
@@ -99,7 +99,7 @@ void addStudent() {
         getline(cin, student.lastName);
     } while (student.lastName.empty());
 
-    do {
+    do { //in getting the Id, checking to have valid Id
         cout << "Student ID (8 digits): ";
         cin >> student.studentId;
     } while (!isValidStudentId(student.studentId));
