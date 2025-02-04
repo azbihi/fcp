@@ -5,140 +5,114 @@
 #include <limits>
 using namespace std;
 
-//Constants
-//intruducing a couple of const Variables for size of array
-const int MAX_STUDENTS = 100 ;
-const int MAX_COURSES = 10 ;
- //Structs
- // intruducing a couple of structs to keeping our students data
- struct Course
- {
-     string name;
-     int units;
-     float grade;
- };
+// Constants
+const int MAX_STUDENTS = 100;
+const int MAX_COURSES = 10;
 
- struct Student
- {
-     string firstName;
-     string lastName;
-     string studentId;
-     string major;
-     Course courses[MAX_COURSES];
-     int courseCount;
-     float gpa;
- };
- //Global Variables
- Student students[MAX_STUDENTS];
- int studentCount = 0; //counting the number for students
- // Helper Functions
- // func will validate grade
- bool isValidGrade(float grade) {
-     return grade >= 0 && grade <= 20;
- }
- bool isUniqueId (const string& id) //check ID uniqueness 
- {
-     for (int i = 0 ; i < studentCount ; i++)
-     {
-         if (id == students[i].studentId)
-         {
-             return false ;
-         }
-     }
-     return true;
- }
- bool isUniqueId2 (const string& id ,int j) //check ID uniqueness 
- {
-     for (int i = 0 ; i < studentCount ; i++)
-     {   if ( i == j) {continue;}
-         if (id == students[i].studentId)
-         {
-             return false ;
-         }
-     }
-     return true;
- }
- //this function is checking length of string and being sure all of chars are digits
- bool isValidStudentId (const string& id) {
-     return id.length() == 8 && all_of(id.begin(), id.end(), ::isdigit) && isUniqueId(id);
-     }
-bool isValidStudentId2 (const string& id , const int j) {
-     return id.length() == 8 && all_of(id.begin(), id.end(), ::isdigit) && isUniqueId2(id, j);
-     }
-// this func work is to calculate gpa
-void calculateGPA (Student& student)
-{
-    float totalPoints = 0;
-    int totalUnits = 0 ;
+// Structs
+struct Course {
+    string name;
+    int units;
+    float grade;
+};
 
-        for (int i = 0 ; i < student.courseCount; ++i )
-        {
-            totalPoints += (student.courses[i].grade) * (student.courses[i].units);
-            totalUnits += student.courses[i].units;
+struct Student {
+    string firstName;
+    string lastName;
+    string studentId;
+    string major;
+    Course courses[MAX_COURSES];
+    int courseCount;
+    float gpa;
+};
+
+// Global Variables
+Student students[MAX_STUDENTS];
+int studentCount = 0;
+
+// Helper Functions
+bool isValidGrade(float grade) {
+    return grade >= 0 && grade <= 20;
+}
+
+bool isUniqueId(const string& id) {
+    for (int i = 0; i < studentCount; i++) {
+        if (id == students[i].studentId) {
+            return false;
         }
-        student.gpa = totalPoints > 0 ? totalPoints / totalUnits : 0 ;
+    }
+    return true;
+}
+
+bool isUniqueId2(const string& id, int j) {
+    for (int i = 0; i < studentCount; i++) {
+        if (i == j) {
+            continue;
+        }
+        if (id == students[i].studentId) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool isValidStudentId(const string& id) {
+    return id.length() == 8 && all_of(id.begin(), id.end(), ::isdigit) && isUniqueId(id);
+}
+
+bool isValidStudentId2(const string& id, const int j) {
+    return id.length() == 8 && all_of(id.begin(), id.end(), ::isdigit) && isUniqueId2(id, j);
+}
+
+bool allAreDigits(const string& str) {
+    return all_of(str.begin(), str.end(), ::isdigit);
+}
+
+void calculateGPA(Student& student) {
+    float totalPoints = 0;
+    int totalUnits = 0;
+
+    for (int i = 0; i < student.courseCount; ++i) {
+        totalPoints += (student.courses[i].grade) * (student.courses[i].units);
+        totalUnits += student.courses[i].units;
+    }
+    student.gpa = totalPoints > 0 ? totalPoints / totalUnits : 0;
 }
 
 // Core Functions
-
-void deleteSrudnet()
-{
-    string studentId;
-    cout << "\n=== Delete Student ===\n";
-    cout << "Student ID: ";
-    cin >> studentId;
-
-    int studentIndex = -1;
-    for (int i = 0; i < studentCount; ++i) {
-        if (students[i].studentId == studentId) {
-            studentIndex = i;
-            break;
-        }
-    }
-
-    if (studentIndex == -1) {
-        cout << "Student not found!\n";
-        
-        return;
-    }
-
-    for (int i = studentIndex; i < studentCount - 1; ++i) {
-        students[i] = students[i + 1];
-    }
-
-    studentCount--;
-    cout << "\nStudent successfully deleted.\n";
-}
-void addStudent()
-{
-//checking for count of students limit
+void addStudent() {
     if (studentCount >= MAX_STUDENTS) {
         cout << "\nCannot add more students. Maximum capacity reached.\n";
         return;
     }
 
-//making a temp Variable
     Student student;
-    // entering data
     cout << "\n=== New Student Registration ===\n";
-     // Add this to clear buffer
-    cout << "First Name: ";
-    getline(cin, student.firstName);
-    cout << "Last Name: ";
-    getline(cin, student.lastName);
-// cheking student id
+    
+    do {
+        cout << "First Name: ";
+        getline(cin, student.firstName);
+    } while (student.firstName.empty());
+
+    do {
+        cout << "Last Name: ";
+        getline(cin, student.lastName);
+    } while (student.lastName.empty());
+
     do {
         cout << "Student ID (8 digits): ";
         cin >> student.studentId;
     } while (!isValidStudentId(student.studentId));
-
-    cout << "Major: ";
     cin.ignore();
-    getline(cin, student.major);
+
+    do {
+        cout << "Major: ";
+        getline(cin, student.major);
+    } while (student.major.empty());
 
     student.courseCount = 0;
     student.gpa = 0.0;
-//We puting temp data into the main variable.
+
     students[studentCount++] = student;
     cout << "\nStudent successfully registered.\n";
 }
@@ -149,7 +123,7 @@ void addCourseToStudent() {
     cout << "Student ID: ";
     cin >> studentId;
 
-    int studentIndex = -1; // searching for the ID
+    int studentIndex = -1;
     for (int i = 0; i < studentCount; ++i) {
         if (students[i].studentId == studentId) {
             studentIndex = i;
@@ -178,14 +152,24 @@ void addCourseToStudent() {
     
     string input;
     do {
+    jump:
         cout << "Number of Units (1-4): ";
         getline(cin, input);
+        if (!allAreDigits(input)) {
+            cout << "Please enter a valid number\n";
+            goto jump;
+        }
         course.units = stoi(input);
     } while (course.units < 1 || course.units > 4);
 
     do {
+    jump1:
         cout << "Grade (0-20): ";
         getline(cin, input);
+        if (!allAreDigits(input)) {
+            cout << "Please enter a valid number\n";
+            goto jump1;
+        }
         course.grade = stof(input);
     } while (!isValidGrade(course.grade));
 
@@ -194,7 +178,8 @@ void addCourseToStudent() {
 
     cout << "\nCourse successfully added.\n";
 }
-void editCourse(){ //editing course
+
+void editCourse() {
     string studentId;
     cout << "\n=== Edit Course ===\n";
     cout << "Student ID: ";
@@ -215,54 +200,68 @@ void editCourse(){ //editing course
     }
 
     Student& student = students[studentIndex];
-    int z = 0 ; 
-    for ( z ; z < student.courseCount ; z++) 
-    {
-        cout << z+1 << ". " << student.courses[z].name<<endl;
+    int z = 0;
+    for (z; z < student.courseCount; z++) {
+        cout << z + 1 << ". " << student.courses[z].name << endl;
     }
-    if ( z == 0 )
-    { 
-        cout << "There isn't course to edit "<<endl
-             << string(50, '*') << endl ;
-        return ;
-    }
-    else {  
-    cout << "Course num : ";
-    string choose;
-    cin.ignore();
-    getline(cin, choose);
-    int courseIndex = stoi(choose) - 1;
-    if (courseIndex < 0 || courseIndex >= student.courseCount) {
-        cout << "Invalid course number!\n";
+    if (z == 0) {
+        cout << "There isn't course to edit " << endl
+             << string(50, '*') << endl;
+        cin.ignore();
         return;
-    }
-    
-    Course& course = student.courses[courseIndex];
-    cout << "Course Name (" << course.name << "): ";
-    getline(cin, course.name);
-    
-    string input;
-    do {
-        cout << "Number of Units (1-4) (" << course.units << "): ";
-        getline(cin, input);
-        if (!input.empty()) {
-            course.units = stoi(input);
+    } else {
+    jump2:
+        cout << "Course num : ";
+        string choose;
+        cin.ignore();
+        getline(cin, choose);
+        if (!allAreDigits(choose)) {
+            cout << "Please enter a valid number\n";
+            goto jump2;
         }
-    } while (course.units < 1 || course.units > 4);
-
-    do {
-        cout << "Grade (0-20) (" << course.grade << "): ";
-        getline(cin, input);
-        if (!input.empty()) {
-            course.grade = stof(input);
+        int courseIndex = stoi(choose) - 1;
+        if (courseIndex < 0 || courseIndex >= student.courseCount) {
+            cout << "Invalid course number!\n";
+            return;
         }
-    } while (!isValidGrade(course.grade));
 
-    calculateGPA(student);
-    cout << "\nCourse successfully updated.\n";
+        Course& course = student.courses[courseIndex];
+        cout << "Course Name (" << course.name << "): ";
+        getline(cin, course.name);
+
+        string input;
+        do {
+        jump3:
+            cout << "Number of Units (1-4) (" << course.units << "): ";
+            getline(cin, input);
+            if (!allAreDigits(input)) {
+                cout << "Please enter a valid number\n";
+                goto jump3;
+            }
+            if (!input.empty()) {
+                course.units = stoi(input);
+            }
+        } while (course.units < 1 || course.units > 4);
+
+        do {
+        jump4:
+            cout << "Grade (0-20) (" << course.grade << "): ";
+            getline(cin, input);
+            if (!allAreDigits(input)) {
+                cout << "Please enter a valid number\n";
+                goto jump4;
+            }
+            if (!input.empty()) {
+                course.grade = stof(input);
+            }
+        } while (!isValidGrade(course.grade));
+
+        calculateGPA(student);
+        cout << "\nCourse successfully updated.\n";
     }
 }
-void listStudents(const string& majorFilter = "") { //listing sturdents by major
+
+void listStudents(const string& majorFilter = "") {
     cout << "\n=== Student List ===\n";
 
     cout << setw(30) << "Full Name"
@@ -282,13 +281,14 @@ void listStudents(const string& majorFilter = "") { //listing sturdents by major
              << setw(10) << fixed << setprecision(2) << students[i].gpa << endl;
     }
 }
-// function to add a transcript to each students data set
+
 void printTranscript() {
     string studentId;
-    cout << "\n=== Generate Transcript ===\n"<< "Student ID: ";
-    cin>> studentId;
+    cout << "\n=== Generate Transcript ===\n"
+         << "Student ID: ";
+    cin >> studentId;
     int studentIndex = -1;
-    for (int i = 0; i < studentCount; ++i) { //finding the student id
+    for (int i = 0; i < studentCount; ++i) {
         if (students[i].studentId == studentId) {
             studentIndex = i;
             break;
@@ -327,49 +327,11 @@ void printTranscript() {
     cin.ignore();
 }
 
-void editStudent()
- {
-     string studentId;
-     cout << "\n=== Edit Student ===\n";
-     cout << "Student ID: ";
-     cin >> studentId;
-
-     int studentIndex = -1;
-     for (int i = 0; i < studentCount; ++i) {
-         if (students[i].studentId == studentId) {
-             studentIndex = i;
-             break;
-         }
-     }
-
-     if (studentIndex == -1) {
-         cout << "Student not found!\n";
-         cin.ignore();
-         return;
-     }
-
-     Student& student = students[studentIndex];
-        do {
-        cout << "Student ID (8 digits) (" << student.studentId << "): ";
-        cin >> student.studentId;
-        } while (!isValidStudentId2(student.studentId, studentIndex));
-    cin.ignore();
-     cout << "First Name (" << student.firstName << "): ";
-     getline(cin, student.firstName);
-     cout << "Last Name (" << student.lastName << "): ";
-     getline(cin, student.lastName);
-     cout << "Major (" << student.major << "): ";
-     getline(cin, student.major);
-
-     cout << "\nStudent successfully updated.\n";
- }
-
- void deleteStudent()
-{
+void editStudent() {
     string studentId;
-    cout << "\n=== Delete Student ===\n";
+    cout << "\n=== Edit Student ===\n";
     cout << "Student ID: ";
-    cin >>  studentId;
+    cin >> studentId;
 
     int studentIndex = -1;
     for (int i = 0; i < studentCount; ++i) {
@@ -381,6 +343,64 @@ void editStudent()
 
     if (studentIndex == -1) {
         cout << "Student not found!\n";
+        cin.ignore();
+        return;
+    }
+
+    Student& student = students[studentIndex];
+    string draftId, firstName, lastName, major;
+
+    do {
+        cout << "Student ID (8 digits) (" << student.studentId << "): ";
+        cin.ignore();
+        getline(cin, draftId);
+        if (draftId.empty()) {
+            draftId = student.studentId;
+            break;
+        }
+    } while (!isValidStudentId2(draftId, studentIndex));
+
+    cout << "First Name (" << student.firstName << "): ";
+    cin.ignore();
+    getline(cin, firstName);
+    if (!firstName.empty()) {
+        student.firstName = firstName;
+    }
+    cout << "Last Name (" << student.lastName << "): ";
+    getline(cin, lastName);
+    if (!lastName.empty()) {
+        student.lastName = lastName;
+    }
+    cout << "Major (" << student.major << "): ";
+    getline(cin, major);
+    if (!major.empty()) {
+        student.major = major;
+    }
+
+    if (!draftId.empty()) {
+        student.studentId = draftId;
+    }
+
+    cout << "\nStudent successfully updated.\n";
+}
+
+void deleteStudent() {
+    string studentId;
+    cout << "\n=== Delete Student ===\n";
+    cout << "Student ID: ";
+    cin >> studentId;
+
+    int studentIndex = -1;
+    for (int i = 0; i < studentCount; ++i) {
+        if (students[i].studentId == studentId) {
+            studentIndex = i;
+            break;
+        }
+    }
+
+    if (studentIndex == -1) {
+        cout << "Student not found!\n";
+        cin.ignore();
         return;
     }
 
@@ -393,69 +413,48 @@ void editStudent()
     cin.ignore();
 }
 
- int main()
- {
-//defining int for chosing operation
-     string choice;
+int main() {
+    string choice;
 
-     while (true) {
-         cout << "\n=== Student Management System ===\n";
-         cout << "1. Add New Student\n";
-         cout << "2. Add Course to Student\n";
-         cout << "3. List All Students\n";
-         cout << "4. List all students by major\n";
-         cout << "5. Generate Transcript\n";
-         cout << "6. Edit student data\n";
-         cout << "7. Edit course\n";
-         cout << "8. Delete student\n";
-         cout << "9. Exit\n";
-         cout << "Enter your choice: ";
-         getline(cin,choice);
-         if(choice == "1" )
-         {
+    while (true) {
+        cout << "\n=== Student Management System ===\n";
+        cout << "1. Add New Student\n";
+        cout << "2. Add Course to Student\n";
+        cout << "3. List All Students\n";
+        cout << "4. List all students by major\n";
+        cout << "5. Generate Transcript\n";
+        cout << "6. Edit student data\n";
+        cout << "7. Edit course\n";
+        cout << "8. Delete student\n";
+        cout << "9. Exit\n";
+        cout << "Enter your choice: ";
+        getline(cin, choice);
+
+        if (choice == "1") {
             addStudent();
-         }
-         else if (choice == "2")
-         {   
+        } else if (choice == "2") {
             addCourseToStudent();
-         }
-         else if (choice == "3")
-        {
+        } else if (choice == "3") {
             listStudents();
-        }     
-        else if (choice== "4")
-        {
-                string major;
-                cout << "Enter major to filter: ";
-                getline(cin, major);
-                listStudents(major);
-        }
-        else if (choice == "5" )
-        {
+        } else if (choice == "4") {
+            string major;
+            cout << "Enter major to filter: ";
+            getline(cin, major);
+            listStudents(major);
+        } else if (choice == "5") {
             printTranscript();
-        }   
-        else if (choice == "6")
-        {
-                editStudent();
+        } else if (choice == "6") {
+            editStudent();
+        } else if (choice == "7") {
+            editCourse();
+        } else if (choice == "8") {
+            deleteStudent();
+        } else if (choice == "9") {
+            cout << "Program terminated.\n";
+            return 0;
+        } else {
+            cout << "Invalid option!\n";
         }
-        else if (choice == "7")
-        {
-                editCourse();
-        }
-        else if (choice == "8")
-        {
-                deleteStudent();
-        }
-        else if (choice == "9")
-        {
-                cout << "Program terminated.\n";
-                return 0;
-        }        
-        else 
-        {
-                cout << "Invalid option!\n";
-        }
-      
-}
-return 0;
+    }
+    return 0;
 }
