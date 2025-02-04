@@ -64,7 +64,7 @@ bool isValidStudentId2(const string& id, const int j) {
     return id.length() == 8 && all_of(id.begin(), id.end(), ::isdigit) && isUniqueId2(id, j);
 }
 
-bool allAreDigits(const string& str) {
+bool allAreDigits(const string& str) { // handling non-digit inputs
     return all_of(str.begin(), str.end(), ::isdigit);
 }
 
@@ -80,7 +80,7 @@ void calculateGPA(Student& student) {
 }
 
 // Core Functions
-void addStudent() {
+void addStudent() { 
     if (studentCount >= MAX_STUDENTS) {
         cout << "\nCannot add more students. Maximum capacity reached.\n";
         return;
