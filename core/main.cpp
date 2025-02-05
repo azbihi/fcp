@@ -34,7 +34,7 @@ int studentCount = 0;
 bool isValidGrade(float grade) {
     return grade >= 0 && grade <= 20;
 }
-
+//this func is checking id unqueness
 bool isUniqueId(const string& id) {
     for (int i = 0; i < studentCount; i++) {
         if (id == students[i].studentId) {
@@ -55,11 +55,11 @@ bool isUniqueId2(const string& id, int j) { //Handling edition in student data
     }
     return true;
 }
-
+// check vlidation of  studentId
 bool isValidStudentId(const string& id) {
     return id.length() == 8 && all_of(id.begin(), id.end(), ::isdigit) && isUniqueId(id);
 }
-
+ //Handling edition in student data
 bool isValidStudentId2(const string& id, const int j) {
     return id.length() == 8 && all_of(id.begin(), id.end(), ::isdigit) && isUniqueId2(id, j);
 }
