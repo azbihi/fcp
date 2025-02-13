@@ -3,6 +3,7 @@
 #include <string>
 #include <iomanip>
 #include <limits>
+#include <fstream>
 using namespace std;
 
 // Constants
@@ -426,20 +427,78 @@ void deleteStudent() {
     cin.ignore();
 }
 
+void saveToFile() {
+    ofstream file("students.txt");
+    if (!file) {
+        cout << "Error opening file for writing.\n";
+        return;
+    }
+
+    file << studentCount << endl;
+    for (int i = 0; i < studentCount; ++i) {
+        file << students[i].firstName << endl;
+        file << students[i].lastName << endl;
+        file << students[i].studentId << endl;
+        file << students[i].major << endl;
+        file << students[i].courseCount << endl;
+        for (int j = 0; j < students[i].courseCount; ++j) {
+            file << students[i].courses[j].name << endl;
+            file << students[i].courses[j].units << endl;
+            file << students[i].courses[j].grade << endl;
+        }
+        file << students[i].gpa << endl;
+    }
+
+    file.close();
+    cout << "Data saved to file successfully.\n";
+}
+
+void loadFromFile() {
+    ifstream file("students.txt");
+    if (!file) {
+        cout << "No previous data found.\n";
+        return;
+    }
+
+    file >> studentCount;
+    file.ignore();
+    for (int i = 0; i < studentCount; ++i) {
+        getline(file, students[i].firstName);
+        getline(file, students[i].lastName);
+        getline(file, students[i].studentId);
+        getline(file, students[i].major);
+        file >> students[i].courseCount;
+        file.ignore();
+        for (int j = 0; j < students[i].courseCount; ++j) {
+            getline(file, students[i].courses[j].name);
+            file >> students[i].courses[j].units;
+            file >> students[i].courses[j].grade;
+            file.ignore();
+        }
+        file >> students[i].gpa;
+        file.ignore();
+    }
+
+    file.close();
+    cout << "Data loaded from file successfully.\n";
+}
+
 int main() {
     string choice;
 
     while (true) {
         cout << "\n=== Student Management System ===\n";
-        cout << "1. Add New Student\n";
-        cout << "2. Add Course to Student\n";
-        cout << "3. List All Students\n";
-        cout << "4. List all students by major\n";
-        cout << "5. Generate Transcript\n";
-        cout << "6. Edit student data\n";
-        cout << "7. Edit course\n";
-        cout << "8. Delete student\n";
-        cout << "9. Exit\n";
+        cout << "1 . Add New Student\n";
+        cout << "2 . Add Course to Student\n";
+        cout << "3 . List All Students\n";
+        cout << "4 . List all students by major\n";
+        cout << "5 . Generate Transcript\n";
+        cout << "6 . Edit student data\n";
+        cout << "7 . Edit course\n";
+        cout << "8 . Delete student\n";
+        cout << "9 . Download from file\n";
+        cout << "10. Upload to file\n";
+        cout << "11. Exit\n";
         cout << "Enter your choice: ";
         getline(cin, choice);
 
@@ -463,6 +522,10 @@ int main() {
         } else if (choice == "8") {
             deleteStudent();
         } else if (choice == "9") {
+            loadFromFile();
+        } else if (choice == "10") {
+            saveToFile();
+        } else if (choice == "11") {
             cout << "Program terminated.\n";
             return 0;
         } else {
