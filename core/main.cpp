@@ -109,8 +109,8 @@ void addStudent()
     cout << "First Name: ";
      cin.ignore();
     getline(cin, student.firstName);
-    cout << "Last Name: ";
-    student.lastName
+    cout << "Last Name: "<<
+    student.lastName;
 // cheking student id
     do {
         cout << "Student ID (8 digits): ";
